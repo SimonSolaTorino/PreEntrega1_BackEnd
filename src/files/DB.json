@@ -1,0 +1,24 @@
+[
+  {
+    "title": "F!NE Beauty",
+    "description": "colageno sabor naranja",
+    "category": "colageno",
+    "stock": 5,
+    "price": 24000,
+    "code": "FN01",
+    "thumbnail": [],
+    "status": true,
+    "id": 1
+  },
+  {
+    "title": "F!NE Power",
+    "description": "colageno sabor frutos rojos",
+    "category": "colageno",
+    "stock": 7,
+    "price": 32400,
+    "code": "FN02",
+    "thumbnail": [],
+    "status": false,
+    "id": 2
+  }
+]
