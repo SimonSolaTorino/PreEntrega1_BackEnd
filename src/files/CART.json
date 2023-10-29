@@ -1,6 +1,15 @@
 [
   {
     "id": "carrito_preentrega1_0",
-    "products": []
+    "products": [
+      {
+        "product": 1,
+        "quantity": 2
+      },
+      {
+        "product": 2,
+        "quantity": 1
+      }
+    ]
   }
 ]

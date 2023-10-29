@@ -60,28 +60,38 @@ router.post('/', (req, resp)=>{
         resp.json(data_postman)
     }
     else{
-        console.log("ERROR 400: BAD REQUEST.")
+        resp.json({ ERROR_400 : 'Bad params request'})
     }
 })
 
 router.put('/:pid',(req, resp)=>{
+    let cambios = true
     const { pid } = req.params
     const data_postman = req.body
     const products_db = obtener_DB_archivo('./files/DB.json')
     const prod_select = products_db.find(producto => producto.id === parseInt(pid)) //busco el producto por id
 
     if(prod_select === undefined){
-        console.log("ERROR: No se encontro un producto con el id seleccionado.")
+        resp.json({ ERROR_400 : 'Bad params request'})
     }else{
         for (const key in data_postman) {
             if(prod_select.hasOwnProperty(key)){
                 prod_select[key] = data_postman[key]
             }
+            else{
+                cambios = false
+            }
         }
-        const index_prod = products_db.indexOf(prod_select)
-        products_db[index_prod] = prod_select
-        escribir_DB_archivo('./files/DB.json', products_db)
-        resp.json({ message: 'Producto actualizado exitosamente' })
+
+        if(cambios == true){
+            const index_prod = products_db.indexOf(prod_select)
+            products_db[index_prod] = prod_select
+            escribir_DB_archivo('./files/DB.json', products_db)
+            resp.json({ Success: 'Producto actualizado exitosamente' })
+        }else{
+            resp.json({ERROR : "campo/os no existente/es"})
+        }
+        
     }
 })
 
@@ -91,10 +101,11 @@ router.delete('/:pid', (req, resp)=>{
     const prod_select = products_db.find(producto => producto.id === parseInt(pid)) //busco el producto por id
 
     if(prod_select === undefined){
-        console.log("ERROR: No se encontro un producto con el id seleccionado.")
+        resp.json({ ERROR_400 : 'Bad params request'})
     }else{
         const nuevo_products_db = products_db.filter(objeto_productos => objeto_productos.id !== parseInt(pid))
         escribir_DB_archivo('./files/DB.json', nuevo_products_db)
+        resp.json({ Success: 'Producto eliminado exitosamente' })
     }
 
 })

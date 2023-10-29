@@ -25,11 +25,10 @@ function escribir_carrito_archivo(ruta, array_carrito){
 
 function agregar_productos_carrito(objeto_carrito, id_prod){
     const array_objeto_carrito = objeto_carrito.products
-    const existe_prod_en_carrito = array_objeto_carrito.find(prod => prod.id === id_prod)
+    const existe_prod_en_carrito = array_objeto_carrito.find(prod => prod.product === id_prod)
 
     if(existe_prod_en_carrito){
-        const index_prod_en_carrito = array_objeto_carrito.findIndex(prod => prod.product === id_prod)
-        array_objeto_carrito[index_prod_en_carrito].quantity +=1
+        existe_prod_en_carrito.quantity +=1
 
     }else{
         array_objeto_carrito.push({product : id_prod, quantity : 1})
@@ -54,22 +53,22 @@ router.post('/', (req, resp)=>{
 })
 
 router.post('/:cid/products/:pid',(req, resp)=>{
-    const { cart_id } = req.params.cid
-    const { products_id } = parseInt(req.params.pid)
+    const { cid, pid} = req.params 
+    const pid_cast = parseInt(pid)
     const productos_DB = obtener_carrito_archivo('./files/DB.json')
     const carrito_db = obtener_carrito_archivo('./files/CART.json')
-    const existe_prod_en_db = productos_DB.some(producto => producto.id === products_id)
-    const carrito_select = carrito_db.find(carrito => carrito.id === cart_id)
+    const existe_prod_en_db = productos_DB.some(producto => producto.id === pid_cast)
+    const carrito_select = carrito_db.find(carrito => carrito.id === cid)
 
     if(existe_prod_en_db && carrito_select !== undefined){
-        const nuevo_carrito_select = agregar_productos_carrito(carrito_select, products_id)
-        const index_carrito_select = cart.findIndex(carrito => carrito.id === cart_id)
+        const nuevo_carrito_select = agregar_productos_carrito(carrito_select, pid_cast)
+        const index_carrito_select = cart.findIndex(carrito => carrito.id === cid)
         cart[index_carrito_select] = nuevo_carrito_select
         escribir_carrito_archivo('./files/CART.json', cart)
         resp.json({ message : "producto agregado al carrito."})
 
     }else{
-        console.log('ERROR 400: Bad request')
+        resp.json({ ERROR_400 : 'Bad params request'})
     }
 })
 

@@ -20,5 +20,16 @@
     "thumbnail": [],
     "status": false,
     "id": 2
+  },
+  {
+    "title": "F!NE PEAK",
+    "description": "colageno sabor vainila cream",
+    "category": "colageno",
+    "stock": 12,
+    "price": 32400,
+    "code": "FN03",
+    "thumbnail": [],
+    "status": true,
+    "id": 3
   }
 ]
